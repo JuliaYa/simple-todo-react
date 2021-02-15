@@ -9,10 +9,10 @@ import AppHeader from './components/app-header';
 const App = () => {
 
   const todoData = [
-    { label: 'Drink Coffee', important: false },
-    { label: 'Build React App', important: true },
-    { label: 'Call mom', important: false },
-    { label: 'Go to gym', important: true },
+    { id: 1, label: 'Drink Coffee', important: false },
+    { id: 2, label: 'Build React App', important: true },
+    { id: 3, label: 'Call mom', important: false },
+    { id: 4, label: 'Go to gym', important: true },
   ];
 
   return (
