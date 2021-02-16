@@ -4,6 +4,7 @@ import ReactDom from 'react-dom';
 import TodoList from './components/todo-list';
 import SearchPanel from './components/search-panel';
 import AppHeader from './components/app-header';
+import ItemStatusFilter from './components/item-status-filter';
  
 
 const App = () => {
@@ -16,11 +17,14 @@ const App = () => {
   ];
 
   return (
-    <>
-      <AppHeader />
-      <SearchPanel />
+    <div className="todo-app">
+      <AppHeader  toDo={1} done={3}/>
+      <div className="top-panel d-flex">
+        <SearchPanel />
+        <ItemStatusFilter />
+      </div>
       <TodoList todoData={ todoData }/>
-    </>
+    </div>
   );
 };
 

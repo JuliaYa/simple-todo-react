@@ -1,15 +1,12 @@
 import React from 'react';
 
-const SearchPanel = () => {
-  const searchText = 'Type here to search';
-  const searchStyle = {
-    fontSize: '18px',
-  };
+import './search-panel.css';
 
+const SearchPanel = () => {
   return (
-    <input 
-      placeholder={ searchText }
-      style={ searchStyle } />
+    <input type="text"
+              className="form-control search-input"
+              placeholder="Type to search" />
   );
 };
 
