@@ -10,6 +10,8 @@ import AddNewItem from '../add-new-item';
  
 
 export default class App extends Component {
+  maxId = 100;
+  
   state = {
     todoData: [
       { id: 1, label: 'Drink Coffee', important: false },
@@ -32,14 +34,19 @@ export default class App extends Component {
     });
   };
 
-  addItem = (item) => {
-    this.setState(({ todoData }) => {
-      const nextId = todoData.slice(-1)[0].id + 1;  // temporary solution
-      
+  addItem = (text) => {
+    const newItem = {
+      label: text,
+      important: false,
+      done: false,
+      id: this.maxId++
+    }
+    
+    this.setState(({ todoData }) => {   
       return {
         todoData: [
           ...todoData,
-          {...item, id: nextId}
+          newItem
         ]
       };
     });
@@ -57,7 +64,7 @@ export default class App extends Component {
           todoData={ this.state.todoData }
           onDeleted={ this.deleteItem }
         />
-        <AddNewItem addItem={ this.addItem } />
+        <AddNewItem onItemAdded={ this.addItem } />
       </div>
     );
   };
