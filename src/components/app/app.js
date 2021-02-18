@@ -6,7 +6,7 @@ import TodoList from '../todo-list';
 import SearchPanel from '../search-panel';
 import AppHeader from '../app-header';
 import ItemStatusFilter from '../item-status-filter';
-import AddNewItem from '../add-new-item';
+import AddNewItemForm from '../add-new-item-form';
  
 
 export default class App extends Component {
@@ -106,7 +106,7 @@ export default class App extends Component {
           onToggleDone={ this.onToggleDone }
           onToggleImportant={ this.onToggleImportant }
         />
-        <AddNewItem onItemAdded={ this.addItem } />
+        <AddNewItemForm onItemAdded={ this.addItem } />
       </div>
     );
   };

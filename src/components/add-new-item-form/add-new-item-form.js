@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './add-new-item.css';
+import './add-new-item-form.css';
 
-const AddNewItem = (props) => {
+const AddNewItemForm = (props) => {
   const { onItemAdded } = props;
 
   return (
@@ -17,4 +17,4 @@ const AddNewItem = (props) => {
   );
 }
 
-export default AddNewItem;
+export default AddNewItemForm;
