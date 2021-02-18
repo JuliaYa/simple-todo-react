@@ -23,7 +23,19 @@ export default class App extends Component {
 
   getIndexById(id) {
     return this.state.todoData.findIndex((el) => el.id === id);
-  }
+  };
+
+  toggleProperty(array, propName, id) {
+      const index = this.getIndexById(id);
+      const oldItem = array[index];
+      const newItem = { ...oldItem, [propName]: !oldItem[propName] };
+
+      return [
+          ...array.slice(0, index),
+          newItem,
+          ...array.slice(index + 1)
+      ];
+  };
 
   createTodoItem(text) {
     return {
@@ -62,39 +74,24 @@ export default class App extends Component {
 
   onToggleImportant = (id) => {
     this.setState(({ todoData }) => {
-      const index =this.getIndexById(id);
-      const oldItem = todoData[index];
-      const newItem = {...oldItem, important: !oldItem.important };
-
-      return {
-        todoData: [
-          ...todoData.slice(0, index),
-          newItem,
-          ...todoData.slice(index + 1)
-        ]
-      };
+     return {
+       todoData: this.toggleProperty(todoData, 'important', id)
+     }
     });
   };
 
   onToggleDone = (id) => {
     this.setState(({ todoData }) => {
-      const index =this.getIndexById(id);
-      const oldItem = todoData[index];
-      const newItem = {...oldItem, done: !oldItem.done };
-
       return {
-        todoData: [
-          ...todoData.slice(0, index),
-          newItem,
-          ...todoData.slice(index + 1)
-        ]
-      };
-    });
+        todoData: this.toggleProperty(todoData, 'done', id)
+      }
+     });
   };
 
   render() {
-    const doneCount = this.state.todoData.filter((el) => el.done).length;
-    const todoCount = this.state.todoData.length - doneCount;
+    const { todoData } = this.state;
+    const doneCount = todoData.filter((el) => el.done).length;
+    const todoCount = todoData.length - doneCount;
     
     return (
       <div className="todo-app">
@@ -104,7 +101,7 @@ export default class App extends Component {
           <ItemStatusFilter />
         </div>
         <TodoList
-          todoData={ this.state.todoData }
+          todoData={ todoData }
           onDeleted={ this.deleteItem }
           onToggleDone={ this.onToggleDone }
           onToggleImportant={ this.onToggleImportant }
