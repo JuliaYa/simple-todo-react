@@ -18,7 +18,12 @@ export default class App extends Component {
       this.createTodoItem('Build React App'),
       this.createTodoItem('Call mom'),
       this.createTodoItem('Go to gym'),
-    ]
+    ],
+    filter: {
+      text: '',
+      // 0 - all, 1 - active, 2 - done
+      status: 0,
+    },
   };
 
   getIndexById(id) {
@@ -87,19 +92,53 @@ export default class App extends Component {
         todoData: this.toggleProperty(todoData, 'done', id)
       }
      });
+    this.onFilterChange();
+  };
+
+  onStatusChange = (status) => {
+    this.setState({ filter: { ...this.state.filter, status: status } });
+        
+    this.onFilterChange();
   };
 
   onSearchChange = (text) => {
-    const updList  = this.state.todoData.map((item) => {
-      item.visible = item.label.toLowerCase().includes(text.toLowerCase());
-      return item;
-    });
+    this.setState({ filter: { ...this.state.filter, text: text } });
+    
+    this.onFilterChange();
+  };
 
-    this.setState({ todoData: updList });
+  // 0 - all, 1 - active, 2 - done
+  filterByStatus = (item, status) => {
+    if (status === 0) {
+      return true;
+    }
+    return status === 1 ? !item.done : item.done
+  };
+
+  filterByText = (item, text) => {
+    const labelText = item.label.toLowerCase();
+    const searchString = text.toLowerCase();
+    return labelText.includes(searchString);
+  };
+
+  onFilterChange = () => {
+    this.setState(({ todoData, filter }) => {
+      const { text, status } = filter;
+
+      const newArray = todoData.map((item) => {
+        item.visible = this.filterByStatus(item, status)
+                     && this.filterByText(item, text);
+      
+        return item;
+      });
+
+      return { todoData: newArray };
+    });
   }
 
   render() {
     const { todoData } = this.state;
+    const filterStatus = this.state.filter.status;
     const doneCount = todoData.filter((el) => el.done).length;
     const todoCount = todoData.length - doneCount;
     
@@ -108,7 +147,7 @@ export default class App extends Component {
         <AppHeader  toDo={ todoCount } done={ doneCount }/>
         <div className="top-panel d-flex">
           <SearchPanel onChange={ this.onSearchChange } />
-          <ItemStatusFilter />
+          <ItemStatusFilter status={ filterStatus } onStatusChange={ this.onStatusChange } />
         </div>
         <TodoList
           todoData={ todoData }
